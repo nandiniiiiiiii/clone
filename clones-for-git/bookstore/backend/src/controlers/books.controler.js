@@ -1,5 +1,15 @@
 import { Books } from "../models/books.model.js";
 
+//DISPLAY ALL BOOK
+const getAllBooks = async(req,res)=>{
+    try {
+        const books = await Books.find({});
+        return res.status(200).json(books);
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
 //ADD A BOOK
 const addBook = async(req,res) =>{
     try {
@@ -79,8 +89,10 @@ const updatebook = async(req,res) => {
 //DELETE BOOK
 const deletebook = async(req,res)=>{
     try {
-        const {_id} = req.params
+        const {_id} = req.params;
+        console.log(_id);
         const result = await Books.findByIdAndDelete(_id);
+        console.log(result)
         if(!result){
             return res.status(400).json({message: 'book not found'})
         }
@@ -92,5 +104,5 @@ const deletebook = async(req,res)=>{
 }
 
 export {
-    addBook,getABooks,updatebook,deletebook,
+    getAllBooks,addBook,getABooks,updatebook,deletebook,
 }
