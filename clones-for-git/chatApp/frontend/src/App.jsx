@@ -1,6 +1,6 @@
 import React from 'react'
 import {Routes, Route ,BrowserRouter,} from 'react-router-dom';
-import {Chat,Login,Register,} from './pages/index.js';
+import {Chat,Login,Register,SetAvatar} from './pages/index.js';
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
         <Route path='/register' element={<Register/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/' element={<Chat/>}></Route>
+        <Route path='/setavatar' element={<SetAvatar/>}></Route>
       </Routes>
     </BrowserRouter>
   )

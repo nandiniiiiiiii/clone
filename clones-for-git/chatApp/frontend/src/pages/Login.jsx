@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import styled from "styled-components" //helps in styling 
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
 
 
 function Login() {
@@ -25,7 +24,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (handlevalidation()) {
-      const { password, username, email } = value;
+      const { password, username} = value;
       const data = {
         username,
         password,
@@ -42,9 +41,9 @@ function Login() {
     }
   }
   const handlevalidation = () => {
-    const { password, username, email } = value;
-    console.log(password, username, email);
-    if (email === "" || password === "" || username === "") {
+    const { password, username} = value;
+    console.log(password, username);
+    if (password === "" || username === "") {
       toast.error("All feilds are required", toastoptions);
       return false;
     } else if (username.length  === "") {
