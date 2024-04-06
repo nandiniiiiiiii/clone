@@ -1,11 +1,11 @@
 import React from 'react'
 
-function setAvatar() {
+function Contacts() {
   return (
     <div>
-      Avatar
+      contact
     </div>
   )
 }
 
-export default setAvatar
+export default Contacts

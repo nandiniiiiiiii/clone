@@ -72,7 +72,22 @@ const login = async(req,res) =>{
     }
 }
 
+//allcontact
+const allcontact = async(req,res) =>{
+    try {
+        const user = User.find({_id: (req.params.id)}).select([
+            "email",
+            "username",
+            "_id",
+        ])
+        return res.jason(user);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export {
     register,
     login,
+    allcontact,
 }
