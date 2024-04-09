@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 import styled from "styled-components" //helps in styling 
@@ -21,6 +21,11 @@ function Login() {
     draggable: true,
     theme: "dark",
   };
+  useEffect(()=>{
+    if(localStorage.getItem("chat-app-user")){
+      navigate('/');
+    }
+  })
   const handleSubmit = (e) => {
     e.preventDefault()
     if (handlevalidation()) {

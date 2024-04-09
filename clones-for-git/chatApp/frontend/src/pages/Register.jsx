@@ -24,34 +24,36 @@ function Register() {
   };
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(handlevalidation()){
-      const {password,username,email} = value;
+    if (handlevalidation()) {
+      const { password, username, email } = value;
       const data = {
         username,
         email,
         password,
       }
       axios
-        .post('http://localhost:8000/api/auth/register',data)
-        .then(()=>{        
-          navigate('/')
+        .post('http://localhost:8000/api/auth/register', data)
+        .then(() => {
+          console.log(data);
+          localStorage.setItem("chat-app-user", JSON.stringify(data));
+          navigate('/');
         })
-        .catch((error)=>{
-          alert('an error occur please check console');
+        .catch((error) => {
+          toast.error("Error occured"+error, toastoptions);
           console.log(error);
-        })
+        });
     }
   }
   const handlevalidation = () => {
     const { password, username, email } = value;
-    console.log(password,username,email);
-    if (email === "" || password ==="" || username==="") {
+    console.log(password, username, email);
+    if (email === "" || password === "" || username === "") {
       toast.error("All feilds are required", toastoptions);
       return false;
-    }else if (username.length < 5) {
+    } else if (username.length < 5) {
       toast.error("username must be greater than 5 letters", toastoptions);
       return false;
-    }else if (password.length < 5) {
+    } else if (password.length < 5) {
       toast.error("password must be greater than 5 letters", toastoptions);
       return false;
     }

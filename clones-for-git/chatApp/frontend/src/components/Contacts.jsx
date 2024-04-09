@@ -1,6 +1,6 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 
-function Contacts() {
+function Contacts({Contacts}) {
   return (
     <div>
       contact

@@ -1,11 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+import Contacts from '../components/Contacts';
 
 function Chat() {
+  const navigate = useNavigate();
+  const [contact,setContact] = useState([]);
+  const [currentUser,setCurrentUser] = useState([]);
+  useEffect(()=>{
+    if(!localStorage.getItem('chat-app-user')){
+      navigate('/login');
+    }else{
+      setCurrentUser(JSON.parse(localStorage.getItem('chat-app-user')));
+    }
+  },[])
+  useEffect(()=>{
+    if(currentUser){
+      axios
+      .get(`http://localhost:8000/api/auth/allcontact/${currentUser._id}`)
+      .then((res)=>{
+        setContact(res.data);
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }
+  },[currentUser])
   return (
     <ChatContainer>
       <div className="container">
-
+        <Contacts contacts={contacts}/>
       </div>
     </ChatContainer>
   )
