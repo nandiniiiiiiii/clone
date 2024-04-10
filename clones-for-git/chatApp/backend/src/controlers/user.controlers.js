@@ -75,12 +75,22 @@ const login = async(req,res) =>{
 //allcontact
 const allcontact = async(req,res) =>{
     try {
-        const user = User.find({_id: (req.params.id)}).select([
-            "email",
-            "username",
-            "_id",
-        ])
-        return res.jason(user);
+        const {_id} = req.params;
+        console.log(_id)
+        const user = await User.findById(_id);
+        console.log(user)
+        if(!user){
+            res.status(401).send({
+                message: "user not found"
+            })
+        }
+        return res.status(200).json(user);
+        // const use = User.find({_id: (req.params.id)}).select([
+        //     "email",
+        //     "username",
+        //     "_id",
+        // ])
+        // return res.jason(user);
     } catch (error) {
         console.log(error);
     }

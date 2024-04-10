@@ -7,12 +7,13 @@ import Contacts from '../components/Contacts';
 function Chat() {
   const navigate = useNavigate();
   const [contact,setContact] = useState([]);
-  const [currentUser,setCurrentUser] = useState([]);
+  const [currentUser,setCurrentUser] = useState(undefined);
   useEffect(()=>{
     if(!localStorage.getItem('chat-app-user')){
       navigate('/login');
     }else{
       setCurrentUser(JSON.parse(localStorage.getItem('chat-app-user')));
+      console.log(currentUser);
     }
   },[])
   useEffect(()=>{
@@ -30,7 +31,7 @@ function Chat() {
   return (
     <ChatContainer>
       <div className="container">
-        <Contacts contacts={contacts}/>
+        <Contacts contacts={contact}/>
       </div>
     </ChatContainer>
   )
