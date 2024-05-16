@@ -1,9 +1,23 @@
 import React from 'react'
+import { PacmanLoader } from 'react-spinners';
 
 function Loader() {
   return (
-    <div className='animate-ping w-20 h-20 m-8 rounded-full bg-sky-600'>.</div>
+    <Container>
+      <PacmanLoader
+        color="rgba(251, 138, 0, 1)"
+        size={40}
+        speedMultiplier={1}
+      />
+    </Container>
   )
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-40%,300%);
+`
 
 export default Loader

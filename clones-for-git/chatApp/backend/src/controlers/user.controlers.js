@@ -73,31 +73,32 @@ const login = async(req,res) =>{
 }
 
 //allcontact
-const allcontact = async(req,res) =>{
+const allcontact = async(req,res,next) =>{
     try {
-        const {_id} = req.params;
-        console.log(_id)
-        const user = await User.findById(_id);
-        console.log(user)
-        if(!user){
-            res.status(401).send({
-                message: "user not found"
-            })
-        }
-        return res.status(200).json(user);
-        // const use = User.find({_id: (req.params.id)}).select([
-        //     "email",
-        //     "username",
-        //     "_id",
-        // ])
-        // return res.jason(user);
-    } catch (error) {
-        console.log(error);
+        const users = await User.find({ _id: { $ne: req.params.id } }).select([
+            "email",
+            "username",
+            "_id",
+        ]);
+        return res.json(users);
+    } catch (ex) {
+        next(ex);
     }
 }
+
+const logOut = (req, res, next) => {
+    try {
+      if (!req.params.id) return res.json({ msg: "User id is required " });
+      onlineUsers.delete(req.params.id);
+      return res.status(200).send();
+    } catch (ex) {
+      next(ex);
+    }
+  };
 
 export {
     register,
     login,
     allcontact,
+    logOut,
 }

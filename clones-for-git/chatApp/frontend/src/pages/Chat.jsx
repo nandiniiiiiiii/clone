@@ -1,55 +1,74 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Contacts from '../components/Contacts';
+import Welcom from '../components/Welcom';
+import ChatContainer from '../components/ChatContainer';
 
 function Chat() {
   const navigate = useNavigate();
-  const [contact,setContact] = useState([]);
-  const [currentUser,setCurrentUser] = useState(undefined);
-  useEffect(()=>{
-    if(!localStorage.getItem('chat-app-user')){
+  const [contact, setContact] = useState([]);
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentChat, setCurrentChat] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem('chat-app-user')) {
       navigate('/login');
-    }else{
+    } else {
       setCurrentUser(JSON.parse(localStorage.getItem('chat-app-user')));
-      console.log(currentUser);
+      setIsLoading(true);
     }
-  },[])
-  useEffect(()=>{
-    if(currentUser){
+  }, [])
+  useEffect(() => {
+    if (currentUser) {
       axios
-      .get(`http://localhost:8000/api/auth/allcontact/${currentUser._id}`)
-      .then((res)=>{
-        setContact(res.data);
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
+        .get(`http://localhost:8000/api/auth/allcontact/${currentUser._id}`)
+        .then((res) => {
+          setContact(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
-  },[currentUser])
+  }, [currentUser])
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat);
+  };
   return (
-    <ChatContainer>
+    <ChatContainers>
       <div className="container">
-        <Contacts contacts={contact}/>
+        <Contacts
+          contacts={contact}
+          currentUser={currentUser}
+          changeChat={handleChatChange}
+        />
+        {
+          isLoading && currentChat == undefined ? (
+            <Welcom currentChat={currentChat} />
+          ) : (
+            <ChatContainer currentChat={currentChat} />
+          )
+        }
       </div>
-    </ChatContainer>
+    </ChatContainers>
   )
 }
 
-const ChatContainer = styled.div`
+const ChatContainers = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
-  jsutify-content: center;
-  aligin-item: center;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
   background-color: black;
   .container{
     height: 85vh;
     width: 85vw;
     background-color: white;
     display: grid;
+    grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px){
       grid-template-clolumn: 35% 65%;
     }

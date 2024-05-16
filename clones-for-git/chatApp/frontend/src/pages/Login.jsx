@@ -6,7 +6,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 
-
 function Login() {
   const navigate = useNavigate();
   const [value, setValue] = useState({
@@ -26,25 +25,6 @@ function Login() {
       navigate('/');
     }
   })
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (handlevalidation()) {
-      const { password, username} = value;
-      const data = {
-        username,
-        password,
-      }
-      axios
-        .post('http://localhost:8000/api/auth/login', data)
-        .then(() => {
-          navigate('/')
-        })
-        .catch((error) => {
-          alert('an error occur please check console');
-          console.log(error);
-        })
-    }
-  }
   const handlevalidation = () => {
     const { password, username} = value;
     console.log(password, username);
@@ -60,6 +40,28 @@ function Login() {
     }
     return true;
   }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (handlevalidation()) {
+      const { password, username} = value;
+      const data = {
+        username,
+        password,
+      }
+      axios
+      .post('http://localhost:8000/api/auth/login', data)
+      .then(() => {
+        localStorage.setItem("chat-app-user",JSON.stringify(data));
+        navigate('/')
+        console.log("hello")
+        })
+        .catch((error) => {
+          alert('an error occur please check console');
+          console.log(error);
+        })
+    }
+  }
+  
   const handlechange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value })
   }
