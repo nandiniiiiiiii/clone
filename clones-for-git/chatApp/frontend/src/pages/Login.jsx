@@ -50,10 +50,9 @@ function Login() {
       }
       axios
       .post('http://localhost:8000/api/auth/login', data)
-      .then(() => {
-        localStorage.setItem("chat-app-user",JSON.stringify(data));
+      .then((res) => {
+        localStorage.setItem("chat-app-user",JSON.stringify(res.data));
         navigate('/')
-        console.log("hello")
         })
         .catch((error) => {
           alert('an error occur please check console');

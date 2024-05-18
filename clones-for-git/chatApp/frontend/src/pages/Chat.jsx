@@ -10,6 +10,7 @@ function Chat() {
   const navigate = useNavigate();
   const [contact, setContact] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUserId, setCurrentUserId] = useState(undefined);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,6 +28,7 @@ function Chat() {
         .get(`http://localhost:8000/api/auth/allcontact/${currentUser._id}`)
         .then((res) => {
           setContact(res.data);
+          setCurrentUserId(currentUser._id)
         })
         .catch((error) => {
           console.log(error);
@@ -48,7 +50,7 @@ function Chat() {
           isLoading && currentChat == undefined ? (
             <Welcom currentChat={currentChat} />
           ) : (
-            <ChatContainer currentChat={currentChat} />
+            <ChatContainer currentChat={currentChat} currentUserId={currentUserId} />
           )
         }
       </div>

@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import { User } from "./routes/user.routes.js";
+import { Msg } from "./routes/message.routes.js";
 
 const app = express()
 app.use(cors({
@@ -20,6 +21,7 @@ dotenv.config({
 //     res.send('hello world');
 // })
 app.use('/api/auth',User);
+app.use('/api/message',Msg);
 
 connectDB()
 .then(() => {
